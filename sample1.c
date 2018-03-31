@@ -165,13 +165,138 @@ disjoint_set * BinSearch(arraynode array[], int n , int x)
     }
     return retval;
 }
+
+void listunion(arraynode array[],int n,arraynode array1[],int m)
+{
+	int i=0,j=0,k=0;
+	arraynode result[m+n];
+	while(i<n && j<m)
+	{
+		if(array[i].data < array1[j].data)
+		{
+			result[k]=array[i];
+			k++;i++;
+		}
+		else if (array[i].data > array1[j].data)
+		{
+			result[k]=array1[j];
+			k++;j++;
+		}
+		else
+		{
+			result[k]=array1[j];
+			k++;j++;i++;
+		}
+	}
+	while(i<=n)
+	{
+		result[k]=array[i];
+			k++;i++;	
+	}
+	while(j<=m)
+	{
+		result[k]=array1[j];
+			k++;j++;
+	}
+	//print result
+	
+}
+
+void listintersection(arraynode array[],int n,arraynode array1[],int m)
+{
+	int i=0,j=0,k=0;
+	while(i<n && j<m)
+	{
+		if(array[i].data < array1[j].data)
+		{
+			i++;
+		}
+		else if (array[i].data > array1[j].data)
+		{
+			j++;
+		}
+		else
+		{
+			result[k]=array1[j];
+			k++;j++;i++;
+		}
+	}
+	
+	//print result
+	
+}
+
+// array - array1
+void listdifference(arraynode array[],int n,arraynode array1[],int m)
+{
+	int i=0,j=0,k=0;
+	while(i<n && j<m)
+	{
+		if(array[i].data < array1[j].data)
+		{
+			result[k]=array[i];
+			k++;i++;
+		}
+		else if (array[i].data > array1[j].data)
+		{
+			j++;
+		}
+		else
+		{
+			j++;i++;
+		}
+	}
+	while(i<n)
+	{
+		result[k]=array[i];
+		k++;i++;	
+	}
+	//print result ;
+	
+}
+
+void listsymdiff(arraynode array[],int n,arraynode array1[],int m)
+{
+	int i=0,j=0,k=0;
+	while(i<n && j<m)
+	{
+		if(array[i].data < array1[j].data)
+		{
+			result[k]=array[i];
+			k++;i++;
+		}
+		else if (array[i].data > array1[j].data)
+		{
+			result[k]=array1[j];
+			k++;j++;
+		}
+		else
+		{
+			j++;i++;
+		}
+	}
+	while(i<=m)
+	{
+		list3[k]=list1[i];
+			k++;i++;	
+	}
+	while(j<=n)
+	{
+		list3[k]=list2[j];
+			k++;j++;
+	}
+	//print result
+	
+}
+
+
 int main()
 {
 
 	statuscode sc;
 	disjoint_set *ptr,*node,*ptr1,*ptr2;
-	arraynode array[SIZE];	
-	int n,option,i,val1,val2,data;
+	arraynode array[1000],array1[1000];	
+	int n,option,option1,m,i,val1,val2,data;
 	printf("enter the number of elements to be read\n");
 	scanf("%d",&n);
 	printf("enter elemnts in disjoint set");
@@ -187,7 +312,7 @@ int main()
 	{
 	    printf("1.Union\n2.Find Parent of Element\n3.Find if 2 Elements Present in same set\n4.Give 2nd list and implement set operations\n5.Exit\n");
     	scanf("%d",&option);
-    	switch(option)
+        switch(option)
     	{
     	    case 1:printf("Enter 2 numbers\n");
     	            scanf("%d %d",&val1,&val2);
@@ -214,8 +339,35 @@ int main()
     	           else
     	                printf("They are in different set\n");
     	           break;
-    	   case 4://Coming shortly 
-    	            break;
+    	   case 4:printf("enter the number of elements to be read\n");
+				scanf("%d",&m);
+				printf("enter elemnts in disjoint set");
+				for(i=0;i<m;i++)
+				{
+					scanf("%d",&data);
+					array1[i].node=makeset(data);
+	    			array1[i].data=data;
+				}
+				Sort(array1,m);
+				option1 = 0;
+				while(option1 !=-1)
+				{
+					printf("1.list union\n2.list intersection\n3.list difference\n4.list symmetric difference\n");
+					scanf("%d",&option1);
+					switch(option1)
+					{
+						case 1: listunion(array,n,array1,m);
+						break;
+						case 2: listintersection(array,n,array1,m);
+						break;
+						case 3: listdifference(array,n,array1,m);
+						break;
+						case 4: listsymdiff(array,n,array1,m);
+						break;
+						default:option1=-1;
+					}
+				}
+    	       break;
     	   default: option=-1;
     	}
 	}
