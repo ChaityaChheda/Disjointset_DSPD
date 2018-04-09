@@ -172,12 +172,11 @@ void Sort(arraynode array[],int n)
 void display(arraynode result[],int size)
 {
 	int i;
-	arraynode temp;
 	for(i=0;i<size;i++)
 	{
-		temp=result[i];
 		printf("%d ",temp.data);
 	}
+	printf("\n");
 }
 	
 void listunion(arraynode array[],int n,arraynode array1[],int m)
@@ -328,12 +327,7 @@ int main()
 	    array[i].data=data;
 	}
 	Sort(array,n);
-	for(i=0;i<n;i++)
-				{
-					printf("%d ",array[i].data);
-				}
-	
-	
+	display(array,n);
 	option = 0;
 	while(option != -1)
 	{
@@ -352,6 +346,13 @@ int main()
     	   case 2:	printf("Enter a number\n");
     	            scanf("%d",&val1);
     	            node = BinSearch(array,n,val1);
+				
+					 // Path Compression implemented
+			        if(node != NULL && ptr !=NULL && node != ptr && node->parent != ptr)
+				    {
+					    node->parent = ptr1;
+				    }
+					
     	            ptr=FindParent(node);
 					if(ptr!=NULL)
     	            printf("%d\n",ptr->data);
@@ -362,8 +363,20 @@ int main()
     	          scanf("%d %d",&val1,&val2);
     	          node = BinSearch(array,n,val1);
     	          ptr1 = FindParent(node);
+				
+				  // Path Compression implemented
+			      if(node != NULL && ptr1 !=NULL && node != ptr1 && node->parent != ptr1)
+				  {
+						node->parent = ptr1;
+				  }
     	          node = BinSearch(array,n,val2);
     	          ptr2 = FindParent(node);
+
+				  // Path Compression implemented
+			      if(node != NULL && ptr2 != NULL && node != ptr2 && node->parent != ptr2)
+				  {
+						node->parent = ptr2;
+				  }
 				  if(ptr1!=NULL && ptr2!=NULL)
 					{
     	           		if(ptr1->data == ptr2->data)
@@ -385,10 +398,7 @@ int main()
 	    			array1[i].data=data;
 				}
 				Sort(array1,m);
-				for(i=0;i<m;i++)
-				{
-					printf("%d",array1[i].data);
-				}
+				display(array1,m);
 				option1 = 0;
 				while(option1 !=-1)
 				{
